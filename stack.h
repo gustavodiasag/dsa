@@ -34,7 +34,7 @@ typedef List Stack;
  * contains a pointer to `data`, so the memory referenced by `data` should
  * remain valid as long as the element remains in the stack.
  * 
- * Returns 0 if pushing the element is successfull or -1 otherwise. 
+ * Returns 0 if pushing the element is successfull, or -1 otherwise. 
  */
 int stack_push(Stack* stack, const void* data);
 
@@ -42,7 +42,7 @@ int stack_push(Stack* stack, const void* data);
  * Pops an element off the stack specified by `stack`. Once finished, `data`
  * points to the data stored in the element that was popped.
  * 
- * Returns 0 if popping the element was successfull or -1 otherwise.
+ * Returns 0 if popping the element was successfull, or -1 otherwise.
  */
 int stack_pop(Stack* stack, void** data);
 
