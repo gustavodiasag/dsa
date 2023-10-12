@@ -4,10 +4,10 @@
 
 void list_init(List* list, void(destroy)(void*))
 {
-    list->_size = 0;
-    list->_head = NULL;
-    list->_tail = NULL;
-    list->_destroy = destroy;
+    list->_size     = 0;
+    list->_head     = NULL;
+    list->_tail     = NULL;
+    list->_destroy  = destroy;
 }
 
 void list_destroy(List* list)
@@ -31,22 +31,22 @@ int list_ins_next(List* list, ListElt* elt, const void* data)
     if (!(new = (ListElt*)malloc(sizeof(ListElt)))) {
         return -1;
     }
-    new->data = (void*)data;
+    new->_data = (void*)data;
 
     if (!elt) {
         // Head insertion.
         if (!list_size(list)) {
             list->_tail = new;
         }
-        new->next = list->_head;
+        new->_next = list->_head;
         list->_head = new;
     } else {
         // Insertion on the rest of the list.
-        if (!elt->next) {
+        if (!elt->_next) {
             list->_tail = new;
         }
-        new->next = elt->next;
-        elt->next = new;
+        new->_next = elt->_next;
+        elt->_next = new;
     }
     // Adjust list size.
     list->_size++;
@@ -63,23 +63,23 @@ int list_rm_next(List* list, ListElt* elt, void** data)
     }
     if (!elt) {
         // Head deletion.
-        *data = list->_head->data;
+        *data = list->_head->_data;
         old = list->_head;
-        list->_head = list->_head->next;
+        list->_head = list->_head->_next;
 
         if (!list_size(list)) {
             list->_tail = NULL;
         }
     } else {
         // Deletion on the rest of the list.
-        if (!elt->next) {
+        if (!elt->_next) {
             return -1;
         }
-        *data = elt->next->data;
-        old = elt->next;
-        elt->next = elt->next->next;
+        *data = elt->_next->_data;
+        old = elt->_next;
+        elt->_next = elt->_next->_next;
 
-        if (!elt->next) {
+        if (!elt->_next) {
             list->_tail = elt;
         }
     }

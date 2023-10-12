@@ -1,7 +1,7 @@
 #ifndef SET_H
 #define SET_H
 
-#include "list.h"
+#include "list/list.h"
 
 /** Set data structure implemented as linked-list. */
 typedef List Set;
@@ -35,7 +35,6 @@ void set_init(Set* set, int(*match)(const void*, const void*),
  * Returns 0 if inserting the member is successfull, or -1 otherwise.
  */
 int set_insert(Set* set, const void* data);
-
 
 /**
  * Removes the member matching `data` from the set specified by `set`. Once

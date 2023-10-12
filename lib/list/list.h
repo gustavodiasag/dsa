@@ -3,11 +3,13 @@
 
 #include <stdlib.h>
 
+/** Individual element of the linked-list. */
 typedef struct ListElt_ {
-    void*               data;
-    struct ListElt_*    next;
+    void*               _data;
+    struct ListElt_*    _next;
 } ListElt;
 
+/** Singly linked-list data structure. */
 typedef struct _List {
     size_t      _size;
     ListElt*    _head;
@@ -71,7 +73,6 @@ void list_destroy(List* list);
  * Returns 0 if the element is successfully inserted, or -1 otherwise.
  */
 int list_ins_next(List* list, ListElt* elt, const void* data);
-
 
 /**
  * Removes the element right after the one specified by `elt` from the
