@@ -27,7 +27,7 @@ void list_destroy(List* list)
 int list_ins_next(List* list, ListElt* elt, const void* data)
 {
     ListElt* new;
-    // Allocate memory for the element.
+    // Allocate memory for the new element.
     if (!(new = (ListElt*)malloc(sizeof(ListElt)))) {
         return -1;
     }
