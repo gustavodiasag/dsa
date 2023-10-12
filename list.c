@@ -2,15 +2,6 @@
 
 #include "list.h"
 
-typedef struct _List {
-    size_t      _size;
-    ListElt*    _head;
-    ListElt*    _tail;
-    
-    int         (*_match)(const void*, const void*);
-    void        (*_destroy)(void*);
-} List;
-
 void list_init(List* list, void(destroy)(void*))
 {
     list->_size = 0;

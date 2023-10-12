@@ -8,7 +8,14 @@ typedef struct ListElt_ {
     struct ListElt_*    next;
 } ListElt;
 
-typedef struct List List;
+typedef struct _List {
+    size_t      _size;
+    ListElt*    _head;
+    ListElt*    _tail;
+    
+    int         (*_match)(const void*, const void*);
+    void        (*_destroy)(void*);
+} List;
 
 /** Evaluates the number of elements in a linked-list specified by `list`. */
 #define list_size(list) ((list)->_size)
@@ -61,7 +68,7 @@ void list_destroy(List* list);
  * linked-list specified by `list`. If `element` is NULL, the new element is
  * inserted at the head of the list. 
  * 
- * Returns 0 if the element is successfully inserted and -1 otherwise.
+ * Returns 0 if the element is successfully inserted, or -1 otherwise.
  */
 int list_ins_next(List* list, ListElt* elt, const void* data);
 
@@ -72,7 +79,7 @@ int list_ins_next(List* list, ListElt* elt, const void* data);
  * of the list is removed. Once finished, `data` points to the data stored on
  * the element removed.
  * 
- * Returns 0 if the element is successfully removed and -1 otherwise.
+ * Returns 0 if the element is successfully removed, or -1 otherwise.
  */
 int list_rm_next(List* list, ListElt* elt, void** data);
 
