@@ -1,0 +1,5 @@
+# Set covering
+
+Set covering is an optimization problem that models a whole lot of combinatorics and resource selection related problems. The basic idea is that given a set *S* and a set *P* of subsets of *S*, a set *C*, which is composed of one or more sets from *P*, **covers** *S* if each member in *S* is contained in at least one of the subsets in *C*. In addtion, *C* contains as few sets from *P* as possible.
+
+The algorithm for the problem works by repeatedly picking a set from *P* that covers the most members not yet covered in *S*. In other words, it tries to cover as much of *S* as it can as early as it can. Thus the algorithm is greedy, meaning that it takes the local decision that seems the most appropriate in a given moment, hoping that it leads to the best solution in the grand scheme of things. Once a set is selected from *P*, it is removed from it as well as from *S*, so that when there are no more members left to cover in *S*, the set *C* is complete.
