@@ -1,4 +1,3 @@
-#include "list.h"
 #include "stack.h"
 
 int stack_push(Stack* stack, const void* data)

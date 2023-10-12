@@ -6,12 +6,12 @@ int alloc_frame(List* frames)
 
     if (list_rm_next(frames, NULL, (void**)&data)) {
         // Frame cannot be used.
-        return -1; 
-    } else {
-        // Store the number of the available frame.
-        frame_id = *data;
-        free(data);
-    }
+        return -1;
+    } 
+    // Store the number of the available frame.
+    frame_id = *data;
+    free(data);
+    
     return frame_id;
 }
 
