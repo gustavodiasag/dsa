@@ -41,10 +41,10 @@ typedef struct _List {
 #define list_is_tail(list, elt) ((elt) == (list)->_tail)
 
 /** Evaluates the data stored in the element specified by `elt`. */
-#define list_data(elt) ((elt)->data)
+#define list_data(elt) ((elt)->_data)
 
 /** Evaluates the element right after the one specified by `elt`. */
-#define list_next(elt) ((elt)->next)
+#define list_next(elt) ((elt)->_next)
 
 /**
  * Initializes the linked-list specified by `list`. This operation must be

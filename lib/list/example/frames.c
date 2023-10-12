@@ -2,7 +2,8 @@
 
 int alloc_frame(List* frames)
 {
-    int frame_id, *data;
+    int frame_id;
+    int* data;
 
     if (list_rm_next(frames, NULL, (void**)&data)) {
         // Frame cannot be used.

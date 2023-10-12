@@ -20,7 +20,8 @@ int set_insert(Set* set, const void* data)
 
 int set_remove(Set*set, void** data)
 {
-    ListElt* member, *prev;
+    ListElt* member;
+    ListElt* prev;
     prev = NULL;
 
     for (member = list_head(set); member; member = list_next(member)) {
@@ -38,8 +39,8 @@ int set_remove(Set*set, void** data)
 
 int set_union(Set* set_u, const Set* set1, const Set* set2)
 {
-    ListElt*    member;
-    void*       data;
+    ListElt* member;
+    void* data;
     // Initialize the set for the union.
     set_init(set_u, set1->_match, NULL);
     // Insert the elements of the first set.
@@ -70,8 +71,8 @@ int set_union(Set* set_u, const Set* set1, const Set* set2)
 
 int set_intersec(Set* set_i, const Set* set1, const Set* set2)
 {
-    ListElt*    member;
-    void*       data;
+    ListElt* member;
+    void* data;
     // Initialize the set for the intersection.
     set_init(set_i, set1->_match, NULL);
     // Insert the members present in both sets.
@@ -90,8 +91,8 @@ int set_intersec(Set* set_i, const Set* set1, const Set* set2)
 
 int set_diff(Set* set_d, const Set* set1, const Set* set2)
 {
-    ListElt*    member;
-    void*       data;
+    ListElt* member;
+    void* data;
     // Initialize the set for the difference.
     set_init(set_d, set1->_match, NULL);
     // Insert the members from `set1` not in `set2`
@@ -127,7 +128,6 @@ int set_is_subset(const Set* set1, const Set* set2)
     if (set_size(set1) > set_size(set2)) {
         return 0;
     }
-
     for (member = list_head(set1); member; member = list_next(member)) {
         if (!set_is_member(set2, list_data(member))) {
             return 0;

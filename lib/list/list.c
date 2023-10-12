@@ -4,10 +4,10 @@
 
 void list_init(List* list, void(destroy)(void*))
 {
-    list->_size     = 0;
-    list->_head     = NULL;
-    list->_tail     = NULL;
-    list->_destroy  = destroy;
+    list->_size = 0;
+    list->_head = NULL;
+    list->_tail = NULL;
+    list->_destroy = destroy;
 }
 
 void list_destroy(List* list)
