@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-/** Individual element of the singly linked-list. */
+/** Individual element of a singly linked-list. */
 typedef struct ListElt_ {
     void*               _data;
     struct ListElt_*    _next;
@@ -75,7 +75,7 @@ void list_init(List* list, void(destroy)(void*));
 void list_destroy(List* list);
 
 /**
- * Inserts an element right after the one specified by `elt` from the singly
+ * Inserts an element right after the one specified by `elt` from a singly
  * linked-list specified by `list`. If `elt` is NULL, the new element is
  * inserted at the head of the list. 
  * 
@@ -84,7 +84,7 @@ void list_destroy(List* list);
 int list_ins_next(List* list, ListElt* elt, const void* data);
 
 /**
- * Removes the element right after the one specified by `elt` from the singly
+ * Removes the element right after the one specified by `elt` from a singly
  * linked-list specified by `list`. If `elt` is NULL, the element at the head
  * of the list is removed. Once finished, `data` points to the data stored on
  * the element removed.

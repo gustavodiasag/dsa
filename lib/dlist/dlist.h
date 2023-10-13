@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-/** Individual element of the doubly linked-list. */
+/** Individual element of a doubly linked-list. */
 typedef struct _DListElt {
     void*               _data;
     struct _DListElt*   _prev;

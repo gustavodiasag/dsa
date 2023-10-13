@@ -17,7 +17,7 @@ void dlist_destroy(DList* list)
     while (dlist_size(list) > 0) {
         if (!dlist_remove(list, dlist_tail(list), (void**)&data)
             && list->_destroy) {
-
+            // Call the user-defined function for dynamic allocated data.
             list->_destroy(data);
         }
     }
