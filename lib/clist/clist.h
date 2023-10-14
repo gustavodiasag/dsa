@@ -23,6 +23,7 @@ typedef struct _CList {
  * `list`.
  */
 #define clist_size(list) ((list)->_size)
+
 /**
  * Evaluates the element at the head of a circular linked-list specified by
  * `list`.
