@@ -1,0 +1,7 @@
+# Symbol tables
+
+An important application of hash tables is the way compilers maintain information about symbols encountered in a program. Formally, a compiler translates a program written in a *source language* into another language, which is a set of *instructions* for the machine on which the program will run. In order to maintain information about the symbols in a program, compilers make use of a data structure called *symbol table*. Symbol tables are often implemented as hash tables because a compiler must be able to store and retrieve information about symbols very quickly.
+
+Several parts of a compiler access the symbol table during various phases of the compilation process. One part, the *lexical analyzer*, inserts symbols. The lexical analyzer is the part of a compiler charged with grouping characteres from the source code into meaningful strings, called *lexemes*. These are translated into syntactic elements, called *tokens*, that are passed on to the *parser*. The parser performs syntactical analysis. As the lexical analyzer encounters symbols in its input stream, it stores information about them into the symbol table. Two important attributes stored by the lexical analyzer are a symbol's lexeme and the tye of token the lexeme constitutes.
+
+The example presented is a simple lexical analyzer that analyzes a string of characters and then groups them into one of two types of tokens: a token consisting only of digits or a token consisting of something other than digits alone.
