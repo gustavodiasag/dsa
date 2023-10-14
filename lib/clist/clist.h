@@ -48,7 +48,7 @@ void clist_init(CList* list, void(*destroy)(void*));
 
 /**
  * Destroys a doubly linked-list specified by `list`. No operation is allowed
- * to happen in a list after a call to it.
+ * to happen in the list after a call to it.
  * 
  * Removes all the elements from the doubly linked-list calling the function
  * `destroy, defined in `list-init`.

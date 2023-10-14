@@ -10,7 +10,7 @@ typedef List Set;
 #define set_size list_size
 
 /**
- * Destroys a set. Sine a set is a linked-list and requires being destroyed
+ * Destroys a set. Since a set is a linked-list and requires being destroyed
  * in the same way, `set_destroy` is defined to `list_destroy`.
  */
 #define set_destroy list_destroy
@@ -18,14 +18,15 @@ typedef List Set;
 /**
  * Initializes the set specified by `set`. The `match` parameter is a function
  * used by various set operations to determine if two members match. It must
- * return 1 if `key1` is equal to `key2`and 0 otherwise. 
+ * return 1 if `key1` is equal to `key2` or 0 otherwise. 
  * 
  * The `destroy` parameter must provide a way to free dynamic allocations in
  * the case where the set stores heap-allocated data. If the set elements do
- * no contain data that must be freed, `destroy` must be set to NULL.
+ * not contain data that must be freed, `destroy` must be set to NULL.
  */
-void set_init(Set* set, int(*match)(const void*, const void*),
-                        void(*destroy)(void*));
+void set_init(Set* set,
+              int(*match)(const void*, const void*),
+              void(*destroy)(void*));
 
 /**
  * Inserts a member into the set specified by `set`. The new member contains a
