@@ -20,7 +20,7 @@ void clist_destroy(CList* list)
             list->_destroy(data);
         }
     }
-    // Free list.
+    // Clear structure.
     memset(list, 0, sizeof(CList));
 }
 

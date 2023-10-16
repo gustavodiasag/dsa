@@ -26,8 +26,9 @@ void chtbl_destroy(CHTbl* htbl)
     for (size_t i = 0; i < htbl->_buckets; i++) {
         list_destroy(&htbl->_table[i]);
     }
-    free(htbl->_table);
     // Free table.
+    free(htbl->_table);
+    // Clear structure.
     memset(htbl, 0, sizeof(CHTbl));
 }
 

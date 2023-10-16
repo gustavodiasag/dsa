@@ -21,7 +21,7 @@ void dlist_destroy(DList* list)
             list->_destroy(data);
         }
     }
-    // Free list.
+    // Clear structure.
     memset(list, 0, sizeof(DList));
 }
 

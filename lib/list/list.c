@@ -20,7 +20,7 @@ void list_destroy(List* list)
             list->_destroy(data);
         }
     }
-    // Free list.
+    // Clear structure.
     memset(list, 0, sizeof(list));
 }
 
