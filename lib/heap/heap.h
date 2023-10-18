@@ -16,7 +16,7 @@ typedef struct _Heap {
 #define heap_size(heap) ((heap)->_size)
 
 /**
- * Initializes a heap specified by `heap`. This operaetion must be called for a
+ * Initializes a heap specified by `heap`. This operation must be called for a
  * heap in order for it to be used in any context.
  * 
  * The `compare` parameter is a function used by heap operations to compare
