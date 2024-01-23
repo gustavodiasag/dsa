@@ -1,51 +1,113 @@
-AlignAfterOpenBracket: DontAlign
-AlignConsecutiveMacros: false
+---
+Language:        Cpp
+  
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: true
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
-AlignEscapedNewlines: Right
-AlignOperands:   false
-AlignTrailingComments: false
+AlignEscapedNewlines: Left
+AlignOperands:   true
+AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: true
 AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: All
-AllowShortLambdasOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: Never
-AllowShortLoopsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakBeforeMultilineStrings: true
 BinPackArguments: true
 BinPackParameters: true
-BreakBeforeBraces: WebKit
+BraceWrapping:
+  AfterCaseLabel:  false
+  AfterControlStatement: MultiLine
+  AfterEnum:       true 
+  AfterFunction:   true
+  AfterObjCDeclaration: true 
+  AfterStruct:     true
+  AfterUnion:      true
+  BeforeElse:      false
+  IndentBraces:    false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Mozilla
+BreakBeforeInheritanceComma: false
+BreakInheritanceList: BeforeColon
+BreakBeforeTernaryOperators: true
 BreakStringLiterals: true
-ColumnLimit: 80
+ColumnLimit:     80
+CommentPragmas:  '^ UNFMT pragma:'
 ContinuationIndentWidth: 4
-DeriveLineEnding: true
-DerivePointerAlignment: false
+DerivePointerAlignment: true
 DisableFormat:   false
-FixNamespaceComments: false
+ExperimentalAutoDetectBinPacking: false
+FixNamespaceComments: true
+ForEachMacros:
+  - foreach
+  - FOREACH
+  - Q_FOREACH
+  - BOOST_FOREACH
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:           '"([A-Za-z0-9.\Q/-_\E])+"'
+    Priority:        1
+  - Regex:           '<([A-Za-z0-9.\Q/-_\E])+>'
+    Priority:        2
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IncludeIsMainSourceRegex: ''
 IndentCaseLabels: false
+IndentGotoLabels: true
+IndentPPDirectives: None
 IndentWidth:     4
-KeepEmptyLinesAtTheStartOfBlocks: true
+IndentWrappedFunctionNames: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
+RawStringFormats:
+  - Language:        Cpp
+    Delimiters:
+      - cc
+      - CC
+      - cpp
+      - Cpp
+      - CPP
+      - 'c++'
+      - 'C++'
+    CanonicalDelimiter: ''
+    BasedOnStyle:    google
 ReflowComments:  true
 SortIncludes:    true
-SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
-SpaceInEmptyBlock: true
+SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
-SpacesBeforeTrailingComments: 1
-SpacesInAngles:  false
-SpacesInConditionalStatement: false
-SpacesInContainerLiterals: true
+SpacesBeforeTrailingComments: 2
+SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
+Standard:        Auto
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+TabWidth:        4
+UseTab:          Never
+...
+
