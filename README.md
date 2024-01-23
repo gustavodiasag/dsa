@@ -1,5 +1,5 @@
 # dsa
 
-Implementations of a few data structures and algorithms following Kyle Loudon's [Mastering Algorithms with C](https://everythingcomputerscience.com/books/Mastering-Algorithms-with-C-Loudon.pdf) aimed at practicing with some fundamental software engineering ideas, such as modularity, readability, simplicity and consistency of code.
+Implementations of a few data structures following Kyle Loudon's [Mastering Algorithms with C](https://everythingcomputerscience.com/books/Mastering-Algorithms-with-C-Loudon.pdf). The project is basically an exercise on modularity, readability, simplicity and consistency of code whithin a fictional library.
 
-Given that the purpose of the project involves practicing those concepts, a considerably large number of operations are not focused on achieving the maximum performance of its category.
+Considering that purpose, most implementations provided don't focus heavily on correctess or efficiency. The main goal is to define clear structuring of interfaces and apply as much data abstraction principles as possible.
