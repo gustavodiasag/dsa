@@ -50,7 +50,7 @@ int set_remove(Set* set, void** data);
  * contains the union. Given that `set_u` points to data in `set1` and `set2`,
  * the memory referenced by them must remain valid until `set_u` is freed. 
  * 
- * Returns 0 if computing the union os successfull, or -1 otherwise.
+ * Returns 0 if computing the union is successfull, or -1 otherwise.
  */
 int set_union(Set* set_u, const Set* set1, const Set* set2);
 

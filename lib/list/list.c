@@ -14,7 +14,7 @@ void list_destroy(List* list)
 {
     void* data;
     // Remove each element.
-    while (list_size(list) > 0) {
+    while (list_size(list) > 0) {   
         if (!list_rm_next(list, NULL, (void**)&data) && list->_destroy) {
             // Call the user-defined function for dynamic allocated data.
             list->_destroy(data);
