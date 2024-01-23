@@ -1,73 +1,89 @@
-#include <string.h>
-
 #include "clist.h"
 
-void clist_init(CList* list, void(*destroy)(void*))
+#include <string.h>
+
+typedef struct _CListElt
 {
-    list->_size = 0;
-    list->_head = NULL;
-    list->_destroy = destroy;
+    void*               _data;
+    struct _CListElt*   _next;
+} CListElt;
+
+typedef struct _CList
+{
+    size_t      _size;
+    CListElt*   _head;
+
+    int         (*_match)(const void*, const void*);
+    void        (*_destroy)(void*);
+} CList;
+
+
+void clist_init(CList* l, void (*destroy)(void*))
+{
+    l->_size = 0;
+    l->_head = NULL;
+    l->_destroy = destroy;
 }
 
-void clist_destroy(CList* list)
+void clist_destroy(CList* l)
 {
     void* data;
-    // Remove each element.
-    while (clist_size(list) > 0) {
-        if (!clist_rm_next(list, list->_head, (void**)&data)
-            && !list->_destroy) {
-            // Call the user-defined function for dynamic allocated data.
-            list->_destroy(data);
+    /* Remove each element. */
+    while (clist_size(l) > 0) {
+        if (!clist_rm_next(l, l->_head, (void**)&data) &&
+            !l->_destroy) {
+            /* Call the user-defined function for dynamic allocated data. */
+            l->_destroy(data);
         }
     }
-    // Clear structure.
-    memset(list, 0, sizeof(CList));
+    /* Clear structure. */
+    memset(l, 0, sizeof(CList));
 }
 
-int clist_ins_next(CList* list, CListElt* elt, const void* data)
+int clist_ins_next(CList* l, CListElt* e, const void* data)
 {
     CListElt* new;
-    // Allocate memory for the new element.
+    /* Allocate memory for the new element. */
     if (!(new = (CListElt*)malloc(sizeof(CListElt)))) {
         return -1;
-    }   
+    }
     new->_data = (void*)data;
 
-    if (!clist_size(list)) {
-        // Deal with the case where the list is empty.
+    if (!clist_size(l)) {
+        /* Deal with the case where the list is empty. */
         new->_next = new;
-        list->_head = new;
+        l->_head = new;
     } else {
-        new->_next = elt->_next;
-        elt->_next = new;
+        new->_next = e->_next;
+        e->_next = new;
     }
-    // Adjust list size.
-    list->_size++;
+    /* Adjust list size. */
+    l->_size++;
 
     return 0;
 }
 
-int clist_rm_next(CList* list, CListElt* elt, void** data)
+int clist_rm_next(CList* l, CListElt* e, void** data)
 {
     CListElt* old;
-    // Deletion is only allowed in a non-empty list.
-    if (!clist_size(list)) {
+    /* Deletion is only allowed in a non-empty list. */
+    if (!clist_size(l)) {
         return -1;
     }
-    *data = elt->_next->_data;
+    *data = e->_next->_data;
 
-    if (elt->_next == elt) {
-        // Handle last element deletion.
-        old = elt->_next;
-        list->_head = NULL;
+    if (e->_next == e) {
+        /* Handle last element deletion. */
+        old = e->_next;
+        l->_head = NULL;
     } else {
-        old = elt->_next;
-        elt->_next = elt->_next->_next;
+        old = e->_next;
+        e->_next = e->_next->_next;
     }
-    // Free the memory allocated for the abstract data type.
+    /* Free the memory allocated for the abstract data type. */
     free(old);
-    // Adjust list size.
-    list->_size--;
+    /* Adjust list size. */
+    l->_size--;
 
     return 0;
 }

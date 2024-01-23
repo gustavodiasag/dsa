@@ -1,35 +1,52 @@
-#include <string.h>
-
 #include "dlist.h"
 
-void dlist_init(DList* list, void(*destroy)(void*))
+#include <string.h>
+
+typedef struct _DListElt
 {
-    list->_size = 0;
-    list->_head = NULL;
-    list->_tail = NULL;
-    list->_destroy = destroy;
+    void*               _data;
+    struct _DListElt*   _prev;
+    struct _DListElt*   _next;
+} DListElt;
+
+typedef struct
+{
+    size_t      _size;
+    DListElt*   _head;
+    DListElt*   _tail;
+
+    int         (*_match)(const void*, const void*);
+    void        (*_destroy)(void*);
+} DList;
+
+void dlist_init(DList* l, void (*destroy)(void*))
+{
+    l->_size = 0;
+    l->_head = NULL;
+    l->_tail = NULL;
+    l->_destroy = destroy;
 }
 
-void dlist_destroy(DList* list)
+void dlist_destroy(DList* l)
 {
     void* data;
-    // Remove each element.
-    while (dlist_size(list) > 0) {
-        if (!dlist_remove(list, dlist_tail(list), (void**)&data)
-            && list->_destroy) {
-            // Call the user-defined function for dynamic allocated data.
-            list->_destroy(data);
+    /* Remove each element. */
+    while (dlist_size(l) > 0) {
+        if (!dlist_remove(l, dlist_tail(l), (void**)&data) &&
+            l->_destroy) {
+            /* Call the user-defined function for dynamic allocated data. */
+            l->_destroy(data);
         }
     }
-    // Clear structure.
-    memset(list, 0, sizeof(DList));
+    /* Clear structure. */
+    memset(l, 0, sizeof(DList));
 }
 
-int dlist_ins_next(DList* list, DListElt* elt, const void* data)
+int dlist_ins_next(DList* l, DListElt* e, const void* data)
 {
     DListElt* new;
-    // Do not allow a NULL element when a list is not empty.
-    if (!elt && dlist_size(list)) {
+    /* Do not allow a NULL element when a list is not empty. */
+    if (!e && dlist_size(l)) {
         return -1;
     }
     // Allocate memory for the new element.
@@ -38,34 +55,34 @@ int dlist_ins_next(DList* list, DListElt* elt, const void* data)
     }
     new->_data = (void*)data;
 
-    if (!dlist_size(list)) {
-        // Deal with the case where the list is empty.
-        list->_head = new;
-        list->_head->_prev = NULL;
-        list->_head->_next = NULL;
-        list->_tail = new;
+    if (!dlist_size(l)) {
+        /* Deal with the case where the list is empty. */
+        l->_head = new;
+        l->_head->_prev = NULL;
+        l->_head->_next = NULL;
+        l->_tail = new;
     } else {
-        new->_next = elt->_next;
-        new->_prev = elt;
+        new->_next = e->_next;
+        new->_prev = e;
 
-        if (!elt->_next) {
-            list->_tail = new;
+        if (!e->_next) {
+            l->_tail = new;
         } else {
-            elt->_next->_prev = new;
+            e->_next->_prev = new;
         }
-        elt->_next = new;
+        e->_next = new;
     }
-    // Adjust list size.
-    list->_size++;
+    /* Adjust list size. */
+    l->_size++;
 
     return 0;
 }
 
-int dlist_ins_prev(DList* list, DListElt* elt, const void* data)
+int dlist_ins_prev(DList* l, DListElt* e, const void* data)
 {
     DListElt* new;
-    
-    if (!elt && dlist_size(list)) {
+
+    if (!e && dlist_size(l)) {
         return -1;
     }
     if (!(new = (DListElt*)malloc(sizeof(DListElt)))) {
@@ -73,58 +90,58 @@ int dlist_ins_prev(DList* list, DListElt* elt, const void* data)
     }
     new->_data = (void*)data;
 
-    if (!dlist_size(list)) {
-        list->_head = new;
-        list->_head->_prev = NULL;
-        list->_head->_next = NULL;
-        list->_tail = new;
+    if (!dlist_size(l)) {
+        l->_head = new;
+        l->_head->_prev = NULL;
+        l->_head->_next = NULL;
+        l->_tail = new;
     } else {
-        new->_prev = elt->_prev;
-        new->_next = elt;
+        new->_prev = e->_prev;
+        new->_next = e;
 
-        if (!elt->_prev) {
-            list->_head = new;
+        if (!e->_prev) {
+            l->_head = new;
         } else {
-            elt->_prev->_next = new;
+            e->_prev->_next = new;
         }
-        elt->_prev = new;
+        e->_prev = new;
     }
-    list->_size++;
+    l->_size++;
 
     return 0;
 }
 
-int dlist_remove(DList* list, DListElt* elt, void** data)
+int dlist_remove(DList* l, DListElt* e, void** data)
 {
-    // Deletion is only allowed in a non-empty list.
-    if (!elt || !dlist_size(list)) {
+    /* Deletion is only allowed in a non-empty list. */
+    if (!e || !dlist_size(l)) {
         return -1;
     }
-    *data = elt->_data;
-    
-    if (elt == list->_head) {
-        // Head deletion.
-        list->_head = elt->_next;
+    *data = e->_data;
 
-        if (!list->_head) {
-            list->_tail = NULL;
+    if (e == l->_head) {
+        /* Head deletion. */
+        l->_head = e->_next;
+
+        if (!l->_head) {
+            l->_tail = NULL;
         } else {
-            elt->_next->_prev = NULL;
+            e->_next->_prev = NULL;
         }
     } else {
-        // Deletion on the rest of the list.
-        elt->_prev->_next = elt->_next;
+        /* Deletion on the rest of the list. */
+        e->_prev->_next = e->_next;
 
-        if (!elt->_next) {
-            list->_tail = elt->_prev;
+        if (!e->_next) {
+            l->_tail = e->_prev;
         } else {
-            elt->_next->_prev = elt->_prev;
+            e->_next->_prev = e->_prev;
         }
     }
-    // Free the memory allocated for the abstract data type.
-    free(elt);
-    // Adjust list size.
-    list->_size--;
+    /* Free the memory allocated for the abstract data type. */
+    free(e);
+    /* Adjust list size. */
+    l->_size--;
 
     return 0;
 }

@@ -4,54 +4,37 @@
 #include <stdlib.h>
 
 /** Heap data structure. */
-typedef struct _Heap {
-    size_t  _size;
-    void**  _tree;
+typedef struct Heap Heap;
 
-    int     (*_compare)(const void* key1, const void* key2);
-    void    (*_destroy)(void* data);
-} Heap;
-
-/** Evaluates the size of a heap specified by `heap`. */
-#define heap_size(heap) ((heap)->_size)
+/** Evaluates the size of a heap specified by `h`. */
+#define heap_size(h) ((h)->_size)
 
 /**
- * Initializes a heap specified by `heap`. This operation must be called for a
- * heap in order for it to be used in any context.
- * 
- * The `compare` parameter is a function used by heap operations to compare
- * nodes when reorganizing the heap. This function should return 1 if `key1 >
- * key2`, 0 if `key1 == key2` or -1 if `key1 < key2`.
- * 
- * The `destroy` parameter must provide a way to free dynamic allocations in
- * the case where the heap stores heap-allocated data. If the hash-table
- * elements do not contain data that must be freed, `destroy` must be set to
- * NULL.
+ * Initializes a heap specified by `h`.
+ *
+ * The `match` function pointer specifies a comparison function for heap
+ * elements and `destroy` specifies a way to free allocations when the heap
+ * stores heap-allocated data. Otherwise, `destroy` must be set to NULL.
  */
-void heap_init(Heap* heap,
-               int(*compare)(const void*, const void*),
-               void(*destroy)(void*));
+void heap_init(Heap* h, int (*match)(const void*, const void*),
+               void (*destroy)(void*));
+
+/** Removes the elements and deallocates a heap specified by `h`. */
+void heap_destroy(Heap* h);
 
 /**
- * Destroys a heap specified by `heap`. No operation is allowed to happen in
- * the heap after a call to it.
- */
-void heap_destroy(Heap* heap);
-
-/**
- * Inserts a node that contains a pointer to `data` into a heap specified by
- * `heap`.
- * 
+ * Inserts an element containing `data` into a heap specified by `h`.
+ *
  * Returns 0 if inserting the element is successfull, or -1 otherwise.
  */
-int heap_insert(Heap* heap, const void* data);
+int heap_insert(Heap* h, const void* data);
 
 /**
- * Extracts the node at the top of a heap specified by `heap`. Once finished,
+ * Extracts the element at the top of a heap specified by `h`. Once finished,
  * `data` points to the data stored in the node that was extracted.
- * 
+ *
  * Returns 0 if extracting the node is successfull, or -1 otherwise.
  */
-int heap_extract(Heap* heap, void** data);
+int heap_extract(Heap* h, void** data);
 
 #endif

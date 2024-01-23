@@ -1,92 +1,108 @@
-#include <string.h>
-
 #include "list.h"
 
-void list_init(List* list, void(destroy)(void*))
+#include <string.h>
+
+typedef struct ListElt_
 {
-    list->_size = 0;
-    list->_head = NULL;
-    list->_tail = NULL;
-    list->_destroy = destroy;
+    void*               _data;
+    struct ListElt_*    _next;
+} ListElt;
+
+typedef struct
+{
+    size_t      _size;
+    ListElt*    _head;
+    ListElt*    _tail;
+
+    int         (*_match)(const void*, const void*);
+    void        (*_destroy)(void*);
+} List;
+
+void list_init(List* l, void (*destroy)(void*))
+{
+    l->_size = 0;
+    l->_head = NULL;
+    l->_tail = NULL;
+    l->_destroy = destroy;
 }
 
-void list_destroy(List* list)
+void list_destroy(List* l)
 {
     void* data;
-    // Remove each element.
-    while (list_size(list) > 0) {   
-        if (!list_rm_next(list, NULL, (void**)&data) && list->_destroy) {
-            // Call the user-defined function for dynamic allocated data.
-            list->_destroy(data);
+    /* Remove each element. */
+    while (list_size(l) > 0) {
+        if (!list_rm_next(l, NULL, (void**)&data) && l->_destroy) {
+            /* Call the user-defined function for dynamic allocated data. */
+            l->_destroy(data);
         }
     }
-    // Clear structure.
-    memset(list, 0, sizeof(list));
+    /* Clear structure. */
+    memset(l, 0, sizeof(List));
 }
 
-int list_ins_next(List* list, ListElt* elt, const void* data)
+int list_ins_next(List* l, ListElt* e, const void* data)
 {
     ListElt* new;
-    // Allocate memory for the new element.
+    /* Allocate memory for the new element. */
     if (!(new = (ListElt*)malloc(sizeof(ListElt)))) {
         return -1;
     }
     new->_data = (void*)data;
 
-    if (!elt) {
-        // Head insertion.
-        if (!list_size(list)) {
-            list->_tail = new;
+    if (!e) {
+        /* Head insertion. */
+        if (!list_size(l)) {
+            l->_tail = new;
         }
-        new->_next = list->_head;
-        list->_head = new;
+        new->_next = l->_head;
+        l->_head = new;
     } else {
-        // Insertion on the rest of the list.
-        if (!elt->_next) {
-            list->_tail = new;
+        /* Insertion on the rest of the list. */
+        if (!e->_next) {
+            l->_tail = new;
         }
-        new->_next = elt->_next;
-        elt->_next = new;
+        new->_next = e->_next;
+        e->_next = new;
     }
-    // Adjust list size.
-    list->_size++;
+    /* Adjust list size. */
+    l->_size++;
 
     return 0;
 }
 
-int list_rm_next(List* list, ListElt* elt, void** data)
+int list_rm_next(List* l, ListElt* e, void** data)
 {
     ListElt* old;
-    // Deletion is only allowed in a non-empty list.
-    if (!list_size(list)) {
+    /* Deletion is only allowed in a non-empty list. */
+    if (!list_size(l)) {
         return -1;
     }
-    if (!elt) {
-        // Head deletion.
-        *data = list->_head->_data;
-        old = list->_head;
-        list->_head = list->_head->_next;
+    if (!e) {
+        /* Head deletion. */
+        *data = l->_head->_data;
+        old = l->_head;
+        l->_head = l->_head->_next;
 
-        if (!list_size(list)) {
-            list->_tail = NULL;
+        if (!list_size(l)) {
+            l->_tail = NULL;
         }
     } else {
-        // Deletion on the rest of the list.
-        if (!elt->_next) {
+        /* Deletion on the rest of the list. */
+        if (!e->_next) {
             return -1;
         }
-        *data = elt->_next->_data;
-        old = elt->_next;
-        elt->_next = elt->_next->_next;
+        *data = e->_next->_data;
+        old = e->_next;
+        e->_next = e->_next->_next;
 
-        if (!elt->_next) {
-            list->_tail = elt;
+        if (!e->_next) {
+            l->_tail = e;
         }
     }
-    // Free the memory allocated for the abstract datatype.
+    /* Free the memory allocated for the abstract datatype. */
     free(old);
-    // Adjust list size;
-    list->_size--;
+    /* Adjust list size; */
+    l->_size--;
 
     return 0;
 }

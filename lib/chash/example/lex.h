@@ -4,15 +4,20 @@
 #include "chtbl.h"
 
 /** Token types recognized by the lexical analyzer. */
-typedef enum _Token {LEXIT, ERROR, DIGIT, OTHER} Token;
+typedef enum
+{
+    LEXIT,
+    ERROR,
+    DIGIT,
+    OTHER
+} Token;
 
 /**
- * Emits the next token that exists in the input stream specified by `istream`,
- * inserting its correspondent symbol structure into the chained hash-table
- * specified by `symtbl`.
- * 
- * 
+ * Emits the next token in a stream specified by `istream`, inserting it into a
+ * hash-table specified by `symtbl`.
+ *
+ * Returns the token found.
  */
-Token lex(const char *istream, CHTbl* symtbl);
+Token lex(const char* istream, CHTbl* symtbl);
 
 #endif

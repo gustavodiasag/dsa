@@ -4,72 +4,55 @@
 #include <stdlib.h>
 
 /** Individual element of a circular linked-list. */
-typedef struct _CListElt {
-    void*               _data;
-    struct _CListElt*   _next;
-} CListElt;
+typedef struct CListElt CListElt;
 
 /** Circular linked-list data structure. */
-typedef struct _CList {
-    size_t      _size;
-    CListElt*   _head;
+typedef struct CList CList;
 
-    int         (*_match)(const void* key1, const void* key2);
-    void        (*_destroy)(void* data);
-} CList;
-
-/** 
- * Evaluates the number of elements in a circular linked-list specified by
- * `list`.
- */
-#define clist_size(list) ((list)->_size)
+/** Evaluates the element count of a circular linked-list specified by `l`. */
+#define clist_size(l) ((l)->_size)
 
 /**
  * Evaluates the element at the head of a circular linked-list specified by
- * `list`.
+ * `l`.
  */
-#define clist_head(list) ((list)->_head)
+#define clist_head(l) ((l)->_head)
 
-/** Evaluates the data stored in the element specified by `elt`. */
-#define clist_data(elt) ((elt)->_data)
+/** Evaluates the data stored in a list element specified by `e`. */
+#define clist_data(e) ((e)->_data)
 
-/** Evaluates the element right after the one specified by `elt`. */
-#define clist_next(elt) ((elt)->_next)
+/** Evaluates the list element right after the one specified by `e`. */
+#define clist_next(e) ((e)->_next)
 
 /**
- * Initializes a circular linked-list specified by `list`. This operation must
- * be called for a list in order for it to be used in any context.
- * 
- * The `destroy` parameter must provide a way to free dynamic allocations in
- * the case where the list stores heap-allocated data. If the list elements do
- * no contain data that must be freed, `destroy` shall be set to NULL. 
+ * Initializes a circular linked-list specified by `l`.
+ *
+ * The `destroy` function pointer specifies a way to free allocations when the
+ * list stores heap-allocated data. Otherwise, `destroy` must be set to NULL.
  */
-void clist_init(CList* list, void(*destroy)(void*));
+void clist_init(CList* l, void (*destroy)(void*));
+
+/** 
+ * Removes the elements and deallocates a circular linked-list specified by
+ * `l`.
+ */
+void clist_destroy(CList* l);
 
 /**
- * Destroys a doubly linked-list specified by `list`. No operation is allowed
- * to happen in the list after a call to it.
- * 
- * Removes all the elements from the doubly linked-list calling the function
- * `destroy, defined in `list-init`.
- */
-void clist_destroy(CList* list);
-
-/**
- * Inserts an element right after the one specified by `elt` from a circular
- * linked-list specified by `list`. 
- * 
+ * Inserts an element after the one specified by `e` in a circular linked-list
+ * specified by `l`.
+ *
  * Returns 0 if the element is successfully inserted, or -1 otherwise.
  */
-int clist_ins_next(CList* list, CListElt* elt, const void* data);
+int clist_ins_next(CList* l, CListElt* e, const void* data);
 
 /**
- * Removes the element right after the one specified by `elt` from a circular
- * linked-list specified by `list`. Once finished, `data` points to the data
- * stored on the element removed.
- * 
+ * Removes the element after the one specified by `e` from a circular linked-
+ * list specified by `l`. Once finished, `data` points to the data stored on
+ * the element removed.
+ *
  * Returns 0 if the element is successfully removed, or -1 otherwise.
  */
-int clist_rm_next(CList* list, CListElt* elt, void** data);
+int clist_rm_next(CList* l, CListElt* e, void** data);
 
 #endif
